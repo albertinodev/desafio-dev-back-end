@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require('./routes');
+const mongoose = require('mongoose');
 
 const morgan = require('morgan');
 const cookieParser = require("cookie-parser"); 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "1mb" }));
 
+// Cors for aceptiong requests from everwere
 app.use((req, res, next)=> {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
@@ -32,7 +34,10 @@ app.use((req, res) => {
 });
 
 
-app.listen(PORT, (err) => { 
-    console.log(err, ": server"); 
-    console.log("Server running in port: " + PORT);
-});
+// connect to mongodb & listen for requests
+const dbURI = "mongodb+srv://testedev:0907TesteDev2022@cluster0.zuj4j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(result => {
+      app.listen(PORT);
+      console.log("Server running in port: " + PORT);
+ }).catch(err => console.log(err));
