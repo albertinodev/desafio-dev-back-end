@@ -19,8 +19,7 @@ const addTool = async (req, res) => {
         if (!toolRequest) {
             res.status(401).json({ message : "Nee to send a body request" }); 
         } else {
-            const count = await Tool.countDocuments({});
-            const tool = new Tool({ id: (count + 1), ...toolRequest });
+            const tool = new Tool({ ...toolRequest });
             const response = await tool.save();
             res.status(201).json({ message : "Tool added!" });   
         }
@@ -36,7 +35,7 @@ const deleteTool = async (req, res) => {
     try {
         const { id } = req.params;
         const response = await Tool.findOneAndDelete({ id: id });
-        res.status(200).json({ message : "Tool deleted!"}); 
+        res.status(204).json({ message : "No Content"}); 
     } catch (err) {
         console.log(err);
         res.status(500).json({ type: "error", message: "Ocorreu um erro ao eliminar a Tool." });

@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const toolSchema = new Schema({
   id: {
-    type: Number,
-    required: true,
+    type: Schema.Types.ObjectId
   },
   link: {
     type: String,
@@ -22,6 +21,7 @@ const toolSchema = new Schema({
   timestamps: true,
     toJSON: {
       transform(doc, obj){
+        obj.id = obj._id
         delete obj.__v
         delete obj._id
         delete obj.createdAt
