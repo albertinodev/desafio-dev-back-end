@@ -18,6 +18,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "1mb" }));
 
 
+//SwaggerUI import
+const swaggerUI = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
+
+// Setup swagger to be acessible on especified /users/documentation
+app.use('/tools/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
+//app.use('/tools/add/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
+
 // Cors for aceptiong requests from everwere
 app.use((req, res, next)=> {
     res.setHeader('Access-Control-Allow-Origin', '*');
