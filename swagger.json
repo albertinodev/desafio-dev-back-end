@@ -1,0 +1,668 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Desafio Dev Back-End",
+      "description": "Esta documentação mostra como esta API funciona",
+      "version": "1.0.1"
+    },
+    "servers": [
+      {
+        "url": "http://fidli.cloud/",
+        "description": "API de Produção"
+      }
+    ],
+    "paths": {
+      "/users/authentication/signin": {
+        "post": {
+          "sumary": "User Login",
+          "description": "This route is responsible for authenticating users",
+          "tags": ["Users"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "username": "admin@ubi.co.mz",
+                      "password": "******"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "404": {
+              "description": "The email entered is not associated with any account."
+            },
+            "401": {
+              "description": "Your account is inactive."
+            },
+            "406": {
+              "description": "Invalid credentials. Please try again."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "token": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/authentication/get/data": {
+        "get": {
+          "sumary": "Get Logged User",
+          "description": "This route is responsible for fetching the data of the logged in user, passing his token",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "responses": {
+            "404": {
+              "description": "The email entered is not associated with any account."
+            },
+            "401": {
+              "description": "Your account is inactive."
+            },
+            "406": {
+              "description": "Invalid credentials. Please try again."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/operator/get/{storeId}": {
+        "get": {
+          "sumary": "Get Operators",
+          "description": "This route is responsable to get operators by Store ID.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "storeId",
+              "in": "path",
+              "description": "The ID of Store",
+              "required": true
+            }
+          ],
+          "responses": {
+            "406": {
+              "description": "Please inform the StoreID."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "storeOperators": [
+                        {
+                          "user": {
+                            "$ref": "#/components/schemas/User"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/operator/register/{storeId}": {
+        "post": {
+          "sumary": "Operator Register",
+          "description": "This route is responsable to register a new Store Operator.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "storeId",
+              "in": "path",
+              "description": "The ID of Store",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "username": "admin@ubi.co.mz",
+                      "password": "******",
+                      "email": "email@servidor.com",
+                      "contact": "848123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "406": {
+              "description": "You do not have permission to create an Operator."
+            },
+            "400": {
+              "description": "Enter all mandatory data."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/register/admin": {
+        "post": {
+          "sumary": "Admin Register",
+          "description": "This route is responsable to register a new Company Admin.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "type": "number"
+                    },
+                    "company": {
+                      "type": "String"
+                    }
+                  }
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "username": "admin@ubi.co.mp",
+                      "password": "******",
+                      "email": "email@servidor.com",
+                      "contact": "848123456",
+                      "company": "shshrhsrrr53484sSRsryry"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "406": {
+              "description": "You do not have permission to create an Administrator."
+            },
+            "400": {
+              "description": "Enter all mandatory data."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/register/mannager/store/{storeId}": {
+        "post": {
+          "sumary": "Manager Register",
+          "description": "This route is responsable to register a new Store Manager.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "storeId",
+              "in": "path",
+              "description": "The ID of Store",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "pin": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "type": "number"
+                    },
+                    "company": {
+                      "type": "String"
+                    }
+                  }
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "username": "admin@ubi.co.mp",
+                      "pin": "1234",
+                      "email": "email@servidor.com",
+                      "contact": "848123456",
+                      "company": "shshrhsrrr53484sSRsryry"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "406": {
+              "description": "You do not have permission to create an Manager."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/register/staff": {
+        "post": {
+          "sumary": "Staff Register",
+          "description": "This route is responsable to register a new Staff.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "username": "admin@ubi.co.mp",
+                      "password": "1234",
+                      "email": "email@servidor.com",
+                      "contact": "848123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "406": {
+              "description": "Enter all mandatory data."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/get/admins": {
+        "get": {
+          "sumary": "Get Admins List",
+          "description": "Get all platform Admins.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "responses": {
+            "406": {
+              "description": "You do not have permission to view this page."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "previous": {
+                        "type": "number"
+                      },
+                      "next": {
+                        "type": "number"
+                      },
+                      "currentPage": {
+                        "type": "number"
+                      },
+                      "total": {
+                        "type": "number"
+                      },
+                      "results": [{ "$ref": "#/components/schemas/User" }]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/get/admin/{company}": {
+        "get": {
+          "sumary": "Get A Admin",
+          "description": "Get only one administrator by company ID.",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "company",
+              "in": "path",
+              "description": "The ID of Company",
+              "required": true
+            }
+          ],
+          "responses": {
+            "404": {
+              "description": "No administrator found."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/company-users/{company}": {
+        "get": {
+          "sumary": "Get Company Users",
+          "description": "This route is responsible for searching all users of a company.",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "company",
+              "in": "path",
+              "description": "The ID of company",
+              "required": true
+            }
+          ],
+          "security": [{ "bearerAuth": [] }],
+          "responses": {
+            "400": {
+              "description": "Provide the company ID."
+            },
+            "406": {
+              "description": "You do not have permission to view this page."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "previous": {
+                        "type": "number"
+                      },
+                      "next": {
+                        "type": "number"
+                      },
+                      "currentPage": {
+                        "type": "number"
+                      },
+                      "total": {
+                        "type": "number"
+                      },
+                      "results": [{ "$ref": "#/components/schemas/User" }]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/edit/admin": {
+        "put": {
+          "sumary": "Edit Admin",
+          "description": "This route is responsible for editing Admin data.",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "EditUser": {
+                    "value": {
+                      "id": "eee3ettetutu98dduuytawe",
+                      "username": "usuario",
+                      "password": "123456",
+                      "email": "email@servidor.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "406": {
+              "description": "Enter a new username or password."
+            },
+            "404": {
+              "description": "Non-existent User."
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "user": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      }
+    }
+  }
+  
