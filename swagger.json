@@ -84,7 +84,7 @@
               "examples": {
                 "Tool": {
                   "value": {
-                    "title": "Jira",
+                    "name": "Jira",
                     "link": "https://www.atlassian.com/software/jira",
                     "description": "The best software teams ship early and often.",
                     "tags": ["Release", "Report", "Isssues"]
