@@ -2,9 +2,11 @@
 const express = require('express');
 const router = express.Router();
 
-const appAdmin = require('../app/admin');
+const tool = require('../remote/tool');
 
-router.get('/get', appAdmin.index);
-
+// All Tool routes
+router.get('/get', tool.getTools);
+router.post('/add', tool.addTool);
+router.post('/delete', tool.deleteTool);
 
 module.exports = router;

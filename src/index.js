@@ -1,5 +1,5 @@
 const express = require("express");
-const routes = require('./routes');
+const routes = require('./routes/tool');
 const mongoose = require('mongoose');
 
 const morgan = require('morgan');
