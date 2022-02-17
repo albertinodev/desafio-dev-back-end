@@ -17,6 +17,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "1mb" }));
 
+
 // Cors for aceptiong requests from everwere
 app.use((req, res, next)=> {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,7 +35,7 @@ app.use((req, res) => {
 });
 
 
-// connect to mongodb & listen for requests
+//connect to mongodb & listen for requests
 const dbURI = "mongodb+srv://testedev:0907TesteDev2022@cluster0.zuj4j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => {

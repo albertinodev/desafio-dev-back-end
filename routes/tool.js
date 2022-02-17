@@ -4,9 +4,12 @@ const router = express.Router();
 
 const tool = require('../remote/tool');
 
-// All Tool routes
+// Get Tools routes
+router.get('/', tool.getTools);
 router.get('/get', tool.getTools);
+// Add Tool route
 router.post('/add', tool.addTool);
-router.post('/delete', tool.deleteTool);
+// Delete Tool route
+router.delete('/delete/:id', tool.deleteTool);
 
 module.exports = router;

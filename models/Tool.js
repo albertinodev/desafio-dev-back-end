@@ -18,7 +18,17 @@ const toolSchema = new Schema({
     type: [String],
     required: true
   }
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+    toJSON: {
+      transform(doc, obj){
+        delete obj.__v
+        delete obj._id
+        delete obj.createdAt
+        delete obj.updatedAt
+      }
+    }
+});
 
 const Tool = mongoose.model('Tool', toolSchema);
 module.exports = Tool;
