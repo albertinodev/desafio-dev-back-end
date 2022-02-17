@@ -1,6 +1,6 @@
 # desafio-dev-back-end
 
-Aplicação NodeJS usando o Framework Express, a aplicação esta hospeda no Heroku  e pode ser acessada apartir daqui: [Link para a App](https://desafio-dev-back-end.herokuapp.com)
+Aplicação NodeJS usando o Framework Express, a aplicação esta hospeda no Heroku  e pode ser acessada apartir daqui: [https://desafio-dev-back-end.herokuapp.com](https://desafio-dev-back-end.herokuapp.com)
 <br/>
 Para inicializar a aplicação basta instalar as bibliotecas:<br/>
 
