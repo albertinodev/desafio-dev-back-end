@@ -4,8 +4,23 @@ const Tool = require('../models/Tool');
 // Get Tool controller
 const getTools = async (req, res) => {
     try {
+        const tag = req.query.tag;
         const results = await Tool.find().sort({ createdAt: -1 });
-        res.status(200).json(results);
+
+        if (tag && tag !== "") {
+            const finalResp = [];
+            results.map(tool => {
+                const includes = tool.tags.find(tempTag => tempTag.includes(tag));
+                //const includes = tool.tags.includes(tool);
+                if (includes) {
+                    finalResp.push(tool)
+                }
+            });
+
+            res.status(200).json(finalResp);
+        } else {
+            res.status(200).json(results);
+        }
     } catch (err) {
         console.log(err);
         res.status(500).json({ type: "error", message: "Ocorreu um erro mo servidor." });

@@ -1,32 +1,33 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Desafio Dev Back-End",
-      "description": "Esta documentação mostra como esta API funciona",
-      "version": "1.0.1"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Desafio Dev Back-End",
+    "description": "Esta documentação mostra como esta API funciona",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API de Testes"
     },
-    "servers": [
-      {
-        "url": "http://localhost:3000",
-        "description": "API de Testes"
-      },
-      {
-        "url": "https://desafio-dev-back-end.herokuapp.com/",
-        "description": "API de Produção"
-      }
-    ],
-    "paths": {
-      "/tools": {
-        "get": {
-          "sumary": "Tools Listing",
-          "description": "This route is responsible for showing all tools",
-          "tags": ["Tools"],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": [{
+    {
+      "url": "https://desafio-dev-back-end.herokuapp.com/",
+      "description": "API de Produção"
+    }
+  ],
+  "paths": {
+    "/tools": {
+      "get": {
+        "sumary": "Tools Listing",
+        "description": "This route is responsible for showing all tools",
+        "tags": ["Tools"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": [
+                  {
                     "type": "object",
                     "properties": {
                       "id": {
@@ -35,89 +36,111 @@
                       "title": {
                         "type": "string"
                       },
-                      "link" : {
+                      "link": {
                         "type": "string"
                       },
                       "description": {
                         "type": "string"
                       },
-                      "tags": [{
-                        "type": "string"
-                      }]
-                    }
-                  }]
-                }
-              }
-            }
-        }
-          },
-          "post": {
-            "sumary": "Add Tool",
-            "description": "This route is responsable to add new Tools.",
-            "tags": ["Tools"],
-            "requestBody": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "title": {
-                        "type": "string"
-                      },
-                      "link" : {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "tags": [{
-                        "type": "string"
-                      }]
-                  },
-                  "examples": {
-                    "Tool": {
-                      "value": {
-                        "title": "Jira",
-                        "link": "https://www.atlassian.com/software/jira",
-                        "description": "The best software teams ship early and often.",
-                        "tags": ["Release", "Report", "Isssues"]
-                      }
+                      "tags": [
+                        {
+                          "type": "string"
+                        }
+                      ]
                     }
                   }
-                }
+                ]
               }
-            },
-            "responses": {
-              "201": {
-                "description": "Created"
+            }
+          }
+        }
+      },
+      "post": {
+        "sumary": "Add Tool",
+        "description": "This route is responsable to add new Tools.",
+        "tags": ["Tools"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "link": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "tags": [
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "examples": {
+                "Tool": {
+                  "value": {
+                    "title": "Jira",
+                    "link": "https://www.atlassian.com/software/jira",
+                    "description": "The best software teams ship early and often.",
+                    "tags": ["Release", "Report", "Isssues"]
+                  }
+                }
               }
             }
           }
         },
-        "/tools/{id}": {
-            "delete": {
-                "sumary": "Delete Tool",
-                "description": "This route is responsable for deleting tool.",
-                "tags": ["Tools"],
-                "parameters": [
-                  {
-                    "name": "id",
-                    "in": "path",
-                    "description": "The ID of Tool",
-                    "required": true
-                  }
-                ],
-                "responses": { 
-                  "204": {
-                    "description": "No Content"
-                  }
-                }
-              }
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
         }
+      }
+    },
+    "/tools?tag={tag}": {
+      "get": {
+        "sumary": "Tool Filter",
+        "description": "This route is responsable for filter somo tools.",
+        "tags": ["Tools"],
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "type": "string",
+            "description": "The Tag you want to filter",
+            "required": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/tools/{id}": {
+      "delete": {
+        "sumary": "Delete Tool",
+        "description": "This route is responsable for deleting tool.",
+        "tags": ["Tools"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The ID of Tool",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
     }
+  }
 }
-
-
-  
-  
