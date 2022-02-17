@@ -8,7 +8,7 @@ const getTools = async (req, res) => {
         res.status(200).json(results);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ type: "error", message: "Ocorreu um erro mo servidor." });
+        res.status(500).json({ nodemon : "error", message: "Ocorreu um erro mo servidor." });
     }
 }
 
