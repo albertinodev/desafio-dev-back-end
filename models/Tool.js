@@ -5,6 +5,10 @@ const toolSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId
   },
+  name: {
+    type: String,
+    required: true,
+  },
   link: {
     type: String,
     required: true,
