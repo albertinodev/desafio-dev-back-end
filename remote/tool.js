@@ -20,8 +20,8 @@ const addTool = async (req, res) => {
             res.status(401).json({ message : "Nee to send a body request" }); 
         } else {
             const tool = new Tool({ ...toolRequest });
-            const response = await tool.save();
-            res.status(201).json({ message : "Tool added!" });   
+            const newTool = await tool.save();
+            res.status(201).json(newTool);   
         }
     } catch (err) {
         console.log(err);
@@ -34,7 +34,7 @@ const addTool = async (req, res) => {
 const deleteTool = async (req, res) => {
     try {
         const { id } = req.params;
-        const response = await Tool.findOneAndDelete({ id: id });
+        const response = await Tool.findOneAndDelete({ _id: id });
         res.status(204).json({ message : "No Content"}); 
     } catch (err) {
         console.log(err);
